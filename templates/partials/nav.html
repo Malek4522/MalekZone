@@ -20,14 +20,14 @@
 											</a>
 										</li>
 									{%- else %}
-										<li>
-											<a href="{{ get_url(path=link.url, lang=lang)}}"
-												{%- if current_url | default(value='/') | trim_end_matches(pat='/') | safe == get_url(path=link.url, lang=lang) | trim_end_matches(pat='/') | safe -%}
-													class="active"
-												{%- endif -%}>
-												{{- macros_translate::translate(key=link.name, default=link.name, language_strings=language_strings) -}}
-											</a>
-										</li>
+                                        <li>
+                                            <a href="{{ get_url(path=link.url, lang=lang, absolute=true)}}"
+                                                {%- if current_url | default(value='/') | trim_end_matches(pat='/') | safe == get_url(path=link.url, lang=lang) | trim_end_matches(pat='/') | safe -%}
+                                                    class="active"
+                                                {%- endif -%}>
+                                                {{- macros_translate::translate(key=link.name, default=link.name, language_strings=language_strings) -}}
+                                            </a>
+                                        </li>
 									{%- endif %}
 								{%- endfor -%}
 							</ul>
@@ -40,14 +40,14 @@
 						</a>
 					</li>
 				{%- else %}
-					<li>
-						<a href="{{ get_url(path=link.url, lang=lang)}}"
-							{%- if current_url | default(value='/') | trim_end_matches(pat='/') | safe == get_url(path=link.url, lang=lang) | trim_end_matches(pat='/') | safe -%}
-								class="active"
-							{%- endif -%}>
-							{{- macros_translate::translate(key=link.name, default=link.name, language_strings=language_strings) -}}
-						</a>
-					</li>
+                    <li>
+                        <a href="{{ get_url(path=link.url, lang=lang, absolute=true)}}"
+                            {%- if current_url | default(value='/') | trim_end_matches(pat='/') | safe == get_url(path=link.url, lang=lang) | trim_end_matches(pat='/') | safe -%}
+                                class="active"
+                            {%- endif -%}>
+                            {{- macros_translate::translate(key=link.name, default=link.name, language_strings=language_strings) -}}
+                        </a>
+                    </li>
 				{%- endif %}
 			{%- endfor -%}
 			{%- if config.languages | length > 0 %}
