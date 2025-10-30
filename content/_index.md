@@ -55,8 +55,8 @@ My project showcases are in my GitHub repositories:
 You can download my CV as a PDF:
 
 <div class="buttons" style="margin-top: 12px;">
-  <a href="/Messaoudi abdmalek CV.pdf" class="link external" download>Download CV (PDF)</a>
-  <a href="/Messaoudi abdmalek CV.pdf" class="link external" target="_blank" rel="noopener">View CV</a>
+  <a href="Messaoudi abdmalek CV.pdf" class="link external" download>Download CV (PDF)</a>
+  <a href="Messaoudi abdmalek CV.pdf" class="link external" target="_blank" rel="noopener">View CV</a>
 </div>
 
 ## Contact
