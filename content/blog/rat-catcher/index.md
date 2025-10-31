@@ -11,8 +11,12 @@ tags = ["Security", "Malware", "RATs"]
   </p>
   <p>
   <i>
-    This blog post is based on the research paper "Catching Remote Administration Trojans (RATs)". For full methodology and data, please see the original publication.
+   This blog post is based on the research paper "Catching Remote Administration Trojans (RATs)". For full methodology and data, please see the original publication.
    </i>
+  
+  <p>
+    <img src="/rat-catcher/RAT%20Catcher.png" alt="RAT Catcher image" style="max-width: 100%; height: auto; border-radius: 6px;" />
+  </p>
   <h2>
    What Is a RAT?
   </h2>
