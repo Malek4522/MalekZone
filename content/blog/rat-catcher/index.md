@@ -15,7 +15,7 @@ tags = ["Security", "Malware", "RATs"]
    </i>
   
   <p>
-    <img src="/rat-catcher/RAT%20Catcher.png" alt="RAT Catcher image" style="max-width: 100%; height: auto; border-radius: 6px;" />
+    <img src="../../rat-catcher/RAT%20Catcher.png" alt="RAT Catcher image" style="max-width: 100%; height: auto; border-radius: 6px;" />
   </p>
   <h2>
    What Is a RAT?
