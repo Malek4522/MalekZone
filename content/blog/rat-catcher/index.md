@@ -192,7 +192,19 @@ Victim:1030 → Attacker:1075 : (SYN) (data channel established)</pre>
    </b>
    and often encrypted or obfuscated, which defeats static signature checks and simple protocol filters.
   </p>
-  
+  <h2>RAT Communication and Evasion Techniques</h2>
+  <p>
+    RATs are notorious for evasion tricks to defeat signature-based detectors. Two key strategies are <b>encryption</b> and <b>protocol camouflage</b>:
+  </p>
+  <p>
+    <b>Encrypted Traffic:</b> Many RATs (like <i>Back Orifice</i>, <i>BO2K</i>, and <i>NetBus</i>) XOR-encrypt their commands and data using a key derived from the attacker’s chosen password. This scrambling thwarts simple payload signatures. However, <b>XOR</b> is a weak cipher: it does not change message lengths or fully obfuscate patterns. For example, every <i>Back Orifice</i> packet still begins with the magic string <code>*!*QWTY?</code> once decrypted. In practice, <b>RAT Catcher</b> can brute-force the 4-byte key and recover cleartext, then detect the structured commands inside (e.g. <code>PING</code>, <code>PROCESSLIST</code>, <code>INFO</code>). The lesson: encryption hides content only superficially — a smart detector can reconstruct and inspect the protocol semantics to expose the RAT.
+  </p>
+  <p>
+    <b>Protocol Diversification:</b> Modern RATs use a variety of transport protocols and mimic normal services. Some are <b>TCP</b>-based (<i>NetBus</i>, <i>SubSeven</i>), others <b>UDP</b>-based (original <i>Back Orifice</i>), and many can do both. For example, <i>Back Orifice 2K</i> supports <b>TCP</b>, whereas older <i>BO</i> only used <b>UDP</b>. Even more devious, RATs often impersonate legitimate protocols. <i>Eclypse</i> masquerades as an <b>FTP</b> server — it starts with an FTP-style banner like <code>220 Eclypse’s FTP server is happy to see you!</code>. <i>WanRemote</i> embeds its commands in <b>HTTP</b> GET requests (e.g. <code>GET /fm?cd=C:/ HTTP/1.1</code> to change directories). <i>Drat</i> and other Telnet-like RATs provide a live shell, echoing each character typed by the attacker. Because of this, RAT traffic can look almost indistinguishable from benign <b>FTP</b>, <b>HTTP</b>, or <b>Telnet</b> sessions.
+  </p>
+  <p>
+    <b>Other Evasion:</b> RATs generate noise and misdirection. Some insert random “decoy” packets or text to trigger false alarms (cgi.di.uoa.gr). For instance, the <i>Doly</i> RAT routinely attempts connections on many ports (3456, 4567, …) which looks like scanning but is in fact a way to camouflage its real channel (cgi.di.uoa.gr). Attackers also constantly change ports (“<b>port hopping</b>”) so that no single fixed port signature works (cgi.di.uoa.gr). These tricks force defenders to analyze content rather than rely on fixed signatures or ports.
+  </p>
   <h2>
    The RAT Catcher Framework
   </h2>
