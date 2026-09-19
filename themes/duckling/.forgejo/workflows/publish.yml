@@ -1,0 +1,23 @@
+name: Publish Website
+run-name: Publish
+on: [push, workflow_dispatch]
+
+jobs:
+  publish:
+    runs-on: linux-zola
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v7
+        with:
+          submodules: 'true'
+      - name: Build
+        run: ~/tools/zola/zola build
+      - name: Upload
+        uses: https://github.com/wangyucode/sftp-upload-action@v3.0.0
+        with:
+          host: 'kallistro.uberspace.de'
+          username: 'aproksha'
+          password: ${{ secrets.password }}
+          localDir: 'public'
+          remoteDir: '/var/www/virtual/aproksha/duckling.aparoksha.dev/'
+          removeExtraFilesOnServer: true
