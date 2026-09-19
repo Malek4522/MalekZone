@@ -26,6 +26,10 @@
         <lastmod>2026-03-07</lastmod>
     </url>
     <url>
+        <loc>https://malek4522.github.io/MalekZone/blog/profinet/</loc>
+        <lastmod>2026-09-19</lastmod>
+    </url>
+    <url>
         <loc>https://malek4522.github.io/MalekZone/blog/rat-catcher/</loc>
         <lastmod>2025-10-30</lastmod>
     </url>
@@ -39,6 +43,9 @@
         <loc>https://malek4522.github.io/MalekZone/tags/ai/</loc>
     </url>
     <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/codesys/</loc>
+    </url>
+    <url>
         <loc>https://malek4522.github.io/MalekZone/tags/malware/</loc>
     </url>
     <url>
@@ -48,12 +55,30 @@
         <loc>https://malek4522.github.io/MalekZone/tags/nlp/</loc>
     </url>
     <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/ot-network/</loc>
+    </url>
+    <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/ot-security/</loc>
+    </url>
+    <url>
         <loc>https://malek4522.github.io/MalekZone/tags/phishing/</loc>
+    </url>
+    <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/pnet/</loc>
+    </url>
+    <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/profinet/</loc>
     </url>
     <url>
         <loc>https://malek4522.github.io/MalekZone/tags/rats/</loc>
     </url>
     <url>
         <loc>https://malek4522.github.io/MalekZone/tags/security/</loc>
+    </url>
+    <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/simulation/</loc>
+    </url>
+    <url>
+        <loc>https://malek4522.github.io/MalekZone/tags/softplc/</loc>
     </url>
 </urlset>

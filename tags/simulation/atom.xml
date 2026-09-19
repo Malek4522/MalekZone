@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title>MALEK452 - simulation</title>
+    <link rel="self" type="application/atom+xml" href="https://malek4522.github.io/MalekZone/tags/simulation/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://malek4522.github.io/MalekZone/"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-09-19T00:00:00+00:00</updated>
+    <id>https://malek4522.github.io/MalekZone/tags/simulation/atom.xml</id>
+    <entry xml:lang="en">
+        <title>How to Simulate PROFINET Traffic Using p-net and CODESYS</title>
+        <published>2026-09-19T00:00:00+00:00</published>
+        <updated>2026-09-19T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://malek4522.github.io/MalekZone/blog/profinet/"/>
+        <id>https://malek4522.github.io/MalekZone/blog/profinet/</id>
+        
+        <content type="html" xml:base="https://malek4522.github.io/MalekZone/blog/profinet/">&lt;h1 id=&quot;pre-requisites&quot;&gt;Pre-requisites&lt;&#x2F;h1&gt;
+&lt;p&gt;To get started we need two computers — one running Linux and one running Windows — connected by an Ethernet cable. On the Linux machine (PC1), you need p-net compiled and ready. You can grab either the release binary or the source code from the RT-Labs GitHub and compile it yourself. On the Windows machine (PC2), you need CODESYS Control Win installed, which is available from the official CODESYS website.&lt;&#x2F;p&gt;
+&lt;p&gt;Some people skip the Linux machine entirely and use a Raspberry Pi instead, which works fine. In my setup I temporarily disabled the firewall on both machines so it would not interfere with connections and ports.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;starting&quot;&gt;Starting&lt;&#x2F;h2&gt;
+&lt;p&gt;The first thing to sort out is connectivity. After linking the two machines with the Ethernet cable, I assigned the Linux machine (PC1) the address &lt;code&gt;192.168.1.100&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;(malek㉿malek)-[~&amp;#x2F;Desktop&amp;#x2F;profinet]
+└─$ ip addr show eth0
+2: eth0: &amp;lt;BROADCAST,MULTICAST,ALLMULTI,UP,LOWER_UP&amp;gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link&amp;#x2F;ether 00:2b:67:b7:34:ec brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.100&amp;#x2F;24 brd 192.168.1.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::6188:e4f:68c2:942a&amp;#x2F;64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And the Windows machine (PC2) gets &lt;code&gt;192.168.1.200&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;PS C:\Users\AKOPOPS&amp;gt; Get-NetIPConfiguration -InterfaceAlias &amp;quot;Ethernet&amp;quot;
+
+InterfaceAlias       : Ethernet
+InterfaceIndex       : 8
+InterfaceDescription : Realtek PCIe GbE Family Controller
+NetProfile.Name      : Network 2
+IPv4Address          : 192.168.1.200
+IPv6DefaultGateway   :
+IPv4DefaultGateway   : 192.168.1.100
+DNSServer            : 1.1.1.1
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now let&#x27;s test connectivity:&lt;&#x2F;p&gt;
+&lt;p&gt;Linux side:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;(malek㉿malek)-[~&amp;#x2F;Desktop&amp;#x2F;profinet]
+└─$ ping 192.168.1.200
+PING 192.168.1.200 (192.168.1.200) 56(84) bytes of data.
+64 bytes from 192.168.1.200: icmp_seq=1 ttl=128 time=0.221 ms
+64 bytes from 192.168.1.200: icmp_seq=2 ttl=128 time=0.218 ms
+64 bytes from 192.168.1.200: icmp_seq=3 ttl=128 time=0.431 ms
+^C
+--- 192.168.1.200 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2051ms
+rtt min&amp;#x2F;avg&amp;#x2F;max&amp;#x2F;mdev = 0.218&amp;#x2F;0.290&amp;#x2F;0.431&amp;#x2F;0.099 ms
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Windows side:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;PS C:\Users\AKOPOPS&amp;gt; ping 192.168.1.100
+
+Pinging 192.168.1.100 with 32 bytes of data:
+Reply from 192.168.1.100: bytes=32 time&amp;lt;1ms TTL=64
+Reply from 192.168.1.100: bytes=32 time&amp;lt;1ms TTL=64
+Reply from 192.168.1.100: bytes=32 time&amp;lt;1ms TTL=64
+Reply from 192.168.1.100: bytes=32 time&amp;lt;1ms TTL=64
+
+Ping statistics for 192.168.1.100:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round time milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Great. Next, hop on the Windows machine and make sure that both the Gateway and the SoftPLC are started. If they are stopped, their tray icons appear grey.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;codesys-icon.png&quot; alt=&quot;CODESYS tray icons in stopped state&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;You can start them by right-clicking on each icon and selecting &lt;strong&gt;Start&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;codesys-icon-start.png&quot; alt=&quot;Starting CODESYS services from the tray&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Next, open &lt;strong&gt;CODESYS V3.5 SP22 Patch 3&lt;&#x2F;strong&gt; (our IDE) and create a new project. Keep the default settings — Standard Project — and click OK.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;codesys-new-project.png&quot; alt=&quot;Creating a new CODESYS project&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Keep the default project settings as well:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;codesys-project-settings.png&quot; alt=&quot;Default CODESYS project settings&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then go to &lt;strong&gt;Tools → Device Repository&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;device-repo.png&quot; alt=&quot;Device Repository menu&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Click &lt;strong&gt;Install&lt;&#x2F;strong&gt; and point it to your GSDML file. Below is the version I used — as long as it matches the p-net version you downloaded, it will work:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;&#x2F;profinet&#x2F;GSDML-V2.43-RT-Labs-P-Net-Sample-App-20240530.xml&quot;&gt;Download GSDML file&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;The p-net device should now appear in the list. In my screenshot three variants show up because I tested multiple GSDML versions — you only need one. Click &lt;strong&gt;Renew Repository&lt;&#x2F;strong&gt; and confirm with &lt;strong&gt;Yes&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;renew-repo.png&quot; alt=&quot;Renewing the device repository&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Next, go to the project tree on the left, double-click on &lt;strong&gt;Device&lt;&#x2F;strong&gt;, click &lt;strong&gt;Scan Network&lt;&#x2F;strong&gt;, select your desktop, and click OK.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;device-scan.png&quot; alt=&quot;Scanning the network for devices&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;If things are going well you will see green dots next to the devices:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;device-scan-good.png&quot; alt=&quot;Green dots confirming device connectivity&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Now right-click on &lt;strong&gt;Device&lt;&#x2F;strong&gt; in the project tree, select &lt;strong&gt;Add&lt;&#x2F;strong&gt;, then navigate to &lt;strong&gt;PROFINET → Ethernet Adapter → Ethernet&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;add-ethernet.png&quot; alt=&quot;Adding an Ethernet adapter&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Do the same thing but this time right-click on the newly added Ethernet adapter and add a &lt;strong&gt;PN Controller&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;add-pn-controller.png&quot; alt=&quot;Adding a PN Controller&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Repeat once more: right-click on the PN Controller and add &lt;strong&gt;p-net&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pnet-add.png&quot; alt=&quot;Adding p-net device&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;If everything went well, the project tree should now look like this:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;project-tree.png&quot; alt=&quot;Final project tree structure&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Double-click on &lt;strong&gt;Ethernet&lt;&#x2F;strong&gt; and click &lt;strong&gt;Browse Network Interface&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;net-interface.png&quot; alt=&quot;Browsing network interfaces&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;A login or register screen may appear — just fill in your credentials:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;login.png&quot; alt=&quot;Login screen&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then select the network adapter that matches the IP address we assigned to the Windows machine (&lt;code&gt;192.168.1.200&lt;&#x2F;code&gt;):&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;network-adapter-choose.png&quot; alt=&quot;Selecting the correct network adapter&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Next, double-click on &lt;strong&gt;PN Controller&lt;&#x2F;strong&gt; and set the IP configuration to match our subnet. In our case that is &lt;code&gt;192.168.1.X&lt;&#x2F;code&gt; with a mask of &lt;code&gt;255.255.255.0&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pn-controller-ip.png&quot; alt=&quot;PN Controller IP settings&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pn-controller-ip-valide.png&quot; alt=&quot;PN Controller IP validated&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then select the p-net IP address that matches the Linux machine:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pnet-ip.png&quot; alt=&quot;p-net IP settings&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;In our case that is &lt;code&gt;192.168.1.100&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pnet-ip-valide.png&quot; alt=&quot;p-net IP validated&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Now click the &lt;strong&gt;Login&lt;&#x2F;strong&gt; button in the top bar and confirm with &lt;strong&gt;Yes&lt;&#x2F;strong&gt;. A login screen may appear again.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;login-icon.png&quot; alt=&quot;Login icon in the top bar&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;You will land on the &lt;strong&gt;PLC STOP&lt;&#x2F;strong&gt; screen:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;stop-screen.png&quot; alt=&quot;PLC STOP screen&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Click the &lt;strong&gt;Run&lt;&#x2F;strong&gt; icon to the right of the Login button, and confirm the green run screen:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;run-screen.png&quot; alt=&quot;PLC Run screen&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;In Wireshark you can already see the SoftPLC actively running and looking for a station named &lt;code&gt;rt-labs-dev&lt;&#x2F;code&gt; using the &lt;strong&gt;PN-DCP&lt;&#x2F;strong&gt; protocol:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;wireshark-pndcp.png&quot; alt=&quot;Wireshark showing PN-DCP discovery traffic&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;running-p-net-on-linux&quot;&gt;Running p-net on Linux&lt;&#x2F;h2&gt;
+&lt;p&gt;Now hop back to PC1 (Linux). A quick tip: connect via SSH to the Linux machine so you are not constantly switching between computers — it saves a lot of time.&lt;&#x2F;p&gt;
+&lt;p&gt;I wrote a small script to run p-net cleanly each time:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bash&quot; class=&quot;language-bash &quot;&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;┌──(malek㉿malek)-[~&amp;#x2F;Desktop&amp;#x2F;profinet]
+└─$ cat run.sh
+#!&amp;#x2F;bin&amp;#x2F;bash
+
+sudo .&amp;#x2F;pn_dev -r
+sudo .&amp;#x2F;pn_dev -f
+rm -f pnet*
+sudo .&amp;#x2F;pn_dev -i eth0 -s rt-labs-dev -v -v -v -v
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The first two lines (&lt;code&gt;-r&lt;&#x2F;code&gt; and &lt;code&gt;-f&lt;&#x2F;code&gt;) remove the old configuration and saved state from a previous run, since p-net persists data between runs. The third line cleans up any generated files. Together they guarantee a reproducible fresh start every time.&lt;&#x2F;p&gt;
+&lt;p&gt;The last line runs p-net on the selected network interface, gives it the station name &lt;code&gt;rt-labs-dev&lt;&#x2F;code&gt; to match what we configured in the IDE, and adds four &lt;code&gt;-v&lt;&#x2F;code&gt; flags for verbose debug output (you can skip those if you want less noise).&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s run it:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;┌──(malek㉿malek)-[~&amp;#x2F;Desktop&amp;#x2F;profinet]
+└─$ .&amp;#x2F;run.sh
+[sudo] password for malek:
+** Starting P-Net sample application 1.0.2+v1.0.2 **
+
+Removing stored files
+Exit application
+
+** Starting P-Net sample application 1.0.2+v1.0.2 **
+Network script for eth0:  Set IP 192.168.1.100   Netmask 255.255.255.0   Gateway 192.168.1.1 ...
+Error: ipv4: Address already assigned.
+Failed to set IP address and netmask
+
+Performing factory reset
+Exit application
+...
+
+** Starting P-Net sample application 1.0.2+v1.0.2 **
+Number of slots:      5 (incl slot for DAP module)
+P-net log level:      4 (DEBUG=0, FATAL=4)
+App log level:        0 (DEBUG=0, FATAL=4)
+Max number of ports:  1
+Network interfaces:   eth0
+Default station name: rt-labs-dev
+Management port:      eth0 00:2B:67:B7:34:EC
+Physical port [1]:    eth0 00:2B:67:B7:34:EC
+Hostname:             malek
+IP address:           0.0.0.0
+...
+
+Init P-Net stack and sample application
+Start sample application main loop
+
+Plug DAP module and its submodules
+...
+Done plugging DAP
+
+Waiting for PLC connect request
+
+PLC connect indication. AREP: 1
+Event indication PNET_EVENT_STARTUP   AREP: 1
+...
+Event indication PNET_EVENT_DATA   AREP: 1
+Cyclic data transmission started
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The &quot;Address already assigned&quot; error on the first run is normal — p-net resets itself and starts cleanly on the second attempt. What matters is the end: it connected to the SoftPLC and started exchanging cyclic traffic.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;verifying-in-wireshark&quot;&gt;Verifying in Wireshark&lt;&#x2F;h2&gt;
+&lt;p&gt;Open Wireshark and check what is happening on the wire:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;wireshark-pniops.png&quot; alt=&quot;Wireshark showing PNIO_PS cyclic traffic&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;The dominant sub-protocol is &lt;strong&gt;PNIO_PS&lt;&#x2F;strong&gt;, which is the cyclic IO data stream. It generates frames at a very high rate. One tip: to get Wireshark to decode the PNIO cyclic data payload, right-click on a frame, go to &lt;strong&gt;Protocol Preferences&lt;&#x2F;strong&gt;, and point it to the folder containing the GSDML file.&lt;&#x2F;p&gt;
+&lt;p&gt;Scrolling to the top of the capture, you can also see the &lt;strong&gt;CM&lt;&#x2F;strong&gt; (Connection Management) exchange that happened when the session was established:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;wireshark-cm.png&quot; alt=&quot;Wireshark showing CM protocol exchange&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bonus-blinking-the-led&quot;&gt;Bonus: Blinking the LED&lt;&#x2F;h2&gt;
+&lt;p&gt;One more thing worth trying. Go back to the IDE, right-click on &lt;strong&gt;PN Controller&lt;&#x2F;strong&gt; in the project tree, and select &lt;strong&gt;Device Scan → Scan&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;pn-controller-scan.png&quot; alt=&quot;PN Controller device scan&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then click the &lt;strong&gt;Blink LED&lt;&#x2F;strong&gt; button:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;&#x2F;profinet&#x2F;blink-led.png&quot; alt=&quot;Blink LED button&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Switch back to the p-net terminal and you can see it responding in real time:&lt;&#x2F;p&gt;
+&lt;pre&gt;&lt;code&gt;Cyclic data transmission started
+
+Profinet signal LED indication. New state: 1
+Profinet signal LED indication. New state: 0
+Profinet signal LED indication. New state: 1
+Profinet signal LED indication. New state: 0
+Profinet signal LED indication. New state: 1
+Profinet signal LED indication. New state: 0
+&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That confirms two-way communication is working — the PLC sent a command and p-net acted on it.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;downloads&quot;&gt;Downloads&lt;&#x2F;h2&gt;
+&lt;p&gt;I am sharing the captured network traffic from this session in case you want to inspect it or use it as a baseline for your own projects:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;&#x2F;profinet&#x2F;profinet.pcapng&quot;&gt;Download profinet.pcapng&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;You can also import the full CODESYS project to replay the lab:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;&#x2F;profinet&#x2F;profinet2.project&quot;&gt;Download profinet2.project&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-did-not-work&quot;&gt;What Did Not Work&lt;&#x2F;h2&gt;
+&lt;p&gt;Before landing on this setup, I tried several other combinations. I am including these here so you do not waste time going down the same dead ends.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;p-net with profinet-py&lt;&#x2F;strong&gt; — failed with a lot of errors. Since both can run on the same Linux machine I tried that, but I could not even get them to establish a connection. The results were bad enough that I abandoned it early.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;Factory IO with PLCSIM Advanced&lt;&#x2F;strong&gt; — failed because PLCSIM Advanced cannot generate real PROFINET traffic over the wire. It did connect to Factory IO, but only using S7 traffic, which is a different protocol.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;CODESYS WinControl with p-net through a home router&lt;&#x2F;strong&gt; — failed because most home routers cannot switch PROFINET traffic, especially the real-time cyclic frames. A direct Ethernet link is necessary.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;strong&gt;CODESYS WinControl with p-net over a VM&lt;&#x2F;strong&gt; (Windows in VM, Linux as host) — failed for reasons I could not fully pin down. The real-time traffic could not cross from the VM to the host even when connectivity was fine and firewalls were disabled. This was actually the closest setup to the working one, so it might be worth investigating further if you need a single-machine solution, but I could not get it to behave.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
