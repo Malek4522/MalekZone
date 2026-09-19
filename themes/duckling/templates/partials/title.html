@@ -26,7 +26,7 @@
 	{%- set prefix = term.name -%}
 {% elif taxonomy.name %}
 	{#- List of tags -#}
-	{%- set prefix = macros_translate.translate(key=taxonomy.name, language_strings=language_strings) | capitalize -%}
+	{%- set prefix = macros_translate::translate(key=taxonomy.name, language_strings=language_strings) | capitalize -%}
 {% else %}
 	{%- set prefix = "404" %}
 {%- endif -%}

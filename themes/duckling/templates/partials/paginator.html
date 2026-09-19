@@ -3,7 +3,7 @@
 		{%- if paginator.previous -%}
 			<a id="paginator-previous" href="{{ paginator.previous }}">
 				<i class="icon"></i>
-				<div>{{ macros_translate.translate(key='previous', default='Previous', language_strings=language_strings) }}</div>
+				<div>{{ macros_translate::translate(key='previous', default='Previous', language_strings=language_strings) }}</div>
 			</a>
 		{%- endif -%}
 
@@ -11,7 +11,7 @@
 
 		{%- if paginator.next -%}
 			<a id="paginator-next" href="{{ paginator.next }}">
-				<div>{{ macros_translate.translate(key='next', default='Next', language_strings=language_strings) }}</div>
+				<div>{{ macros_translate::translate(key='next', default='Next', language_strings=language_strings) }}</div>
 				<i class="icon"></i>
 			</a>
 		{%- endif -%}
