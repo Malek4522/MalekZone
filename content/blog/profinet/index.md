@@ -76,23 +76,23 @@ Approximate round time milli-seconds:
 
 Great. Next, hop on the Windows machine and make sure that both the Gateway and the SoftPLC are started. If they are stopped, their tray icons appear grey.
 
-![CODESYS tray icons in stopped state](/profinet/codesys-icon.png)
+<img src="/profinet/codesys-icon.png" alt="CODESYS tray icons in stopped state" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 You can start them by right-clicking on each icon and selecting **Start**.
 
-![Starting CODESYS services from the tray](/profinet/codesys-icon-start.png)
+<img src="/profinet/codesys-icon-start.png" alt="Starting CODESYS services from the tray" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Next, open **CODESYS V3.5 SP22 Patch 3** (our IDE) and create a new project. Keep the default settings — Standard Project — and click OK.
 
-![Creating a new CODESYS project](/profinet/codesys-new-project.png)
+<img src="/profinet/codesys-new-project.png" alt="Creating a new CODESYS project" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Keep the default project settings as well:
 
-![Default CODESYS project settings](/profinet/codesys-project-settings.png)
+<img src="/profinet/codesys-project-settings.png" alt="Default CODESYS project settings" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Then go to **Tools → Device Repository**:
 
-![Device Repository menu](/profinet/device-repo.png)
+<img src="/profinet/device-repo.png" alt="Device Repository menu" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Click **Install** and point it to your GSDML file. Below is the version I used — as long as it matches the p-net version you downloaded, it will work:
 
@@ -100,73 +100,73 @@ Click **Install** and point it to your GSDML file. Below is the version I used �
 
 The p-net device should now appear in the list. In my screenshot three variants show up because I tested multiple GSDML versions — you only need one. Click **Renew Repository** and confirm with **Yes**.
 
-![Renewing the device repository](/profinet/renew-repo.png)
+<img src="/profinet/renew-repo.png" alt="Renewing the device repository" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Next, go to the project tree on the left, double-click on **Device**, click **Scan Network**, select your desktop, and click OK.
 
-![Scanning the network for devices](/profinet/device-scan.png)
+<img src="/profinet/device-scan.png" alt="Scanning the network for devices" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 If things are going well you will see green dots next to the devices:
 
-![Green dots confirming device connectivity](/profinet/device-scan-good.png)
+<img src="/profinet/device-scan-good.png" alt="Green dots confirming device connectivity" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Now right-click on **Device** in the project tree, select **Add**, then navigate to **PROFINET → Ethernet Adapter → Ethernet**:
 
-![Adding an Ethernet adapter](/profinet/add-ethernet.png)
+<img src="/profinet/add-ethernet.png" alt="Adding an Ethernet adapter" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Do the same thing but this time right-click on the newly added Ethernet adapter and add a **PN Controller**:
 
-![Adding a PN Controller](/profinet/add-pn-controller.png)
+<img src="/profinet/add-pn-controller.png" alt="Adding a PN Controller" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Repeat once more: right-click on the PN Controller and add **p-net**:
 
-![Adding p-net device](/profinet/pnet-add.png)
+<img src="/profinet/pnet-add.png" alt="Adding p-net device" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 If everything went well, the project tree should now look like this:
 
-![Final project tree structure](/profinet/project-tree.png)
+<img src="/profinet/project-tree.png" alt="Final project tree structure" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Double-click on **Ethernet** and click **Browse Network Interface**:
 
-![Browsing network interfaces](/profinet/net-interface.png)
+<img src="/profinet/net-interface.png" alt="Browsing network interfaces" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 A login or register screen may appear — just fill in your credentials:
 
-![Login screen](/profinet/login.png)
+<img src="/profinet/login.png" alt="Login screen" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Then select the network adapter that matches the IP address we assigned to the Windows machine (`192.168.1.200`):
 
-![Selecting the correct network adapter](/profinet/network-adapter-choose.png)
+<img src="/profinet/network-adapter-choose.png" alt="Selecting the correct network adapter" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Next, double-click on **PN Controller** and set the IP configuration to match our subnet. In our case that is `192.168.1.X` with a mask of `255.255.255.0`:
 
-![PN Controller IP settings](/profinet/pn-controller-ip.png)
+<img src="/profinet/pn-controller-ip.png" alt="PN Controller IP settings" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
-![PN Controller IP validated](/profinet/pn-controller-ip-valide.png)
+<img src="/profinet/pn-controller-ip-valide.png" alt="PN Controller IP validated" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Then select the p-net IP address that matches the Linux machine:
 
-![p-net IP settings](/profinet/pnet-ip.png)
+<img src="/profinet/pnet-ip.png" alt="p-net IP settings" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 In our case that is `192.168.1.100`:
 
-![p-net IP validated](/profinet/pnet-ip-valide.png)
+<img src="/profinet/pnet-ip-valide.png" alt="p-net IP validated" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Now click the **Login** button in the top bar and confirm with **Yes**. A login screen may appear again.
 
-![Login icon in the top bar](/profinet/login-icon.png)
+<img src="/profinet/login-icon.png" alt="Login icon in the top bar" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 You will land on the **PLC STOP** screen:
 
-![PLC STOP screen](/profinet/stop-screen.png)
+<img src="/profinet/stop-screen.png" alt="PLC STOP screen" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Click the **Run** icon to the right of the Login button, and confirm the green run screen:
 
-![PLC Run screen](/profinet/run-screen.png)
+<img src="/profinet/run-screen.png" alt="PLC Run screen" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 In Wireshark you can already see the SoftPLC actively running and looking for a station named `rt-labs-dev` using the **PN-DCP** protocol:
 
-![Wireshark showing PN-DCP discovery traffic](/profinet/wireshark-pndcp.png)
+<img src="/profinet/wireshark-pndcp.png" alt="Wireshark showing PN-DCP discovery traffic" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 ## Running p-net on Linux
 
@@ -244,23 +244,23 @@ The "Address already assigned" error on the first run is normal — p-net resets
 
 Open Wireshark and check what is happening on the wire:
 
-![Wireshark showing PNIO_PS cyclic traffic](/profinet/wireshark-pniops.png)
+<img src="/profinet/wireshark-pniops.png" alt="Wireshark showing PNIO_PS cyclic traffic" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 The dominant sub-protocol is **PNIO_PS**, which is the cyclic IO data stream. It generates frames at a very high rate. One tip: to get Wireshark to decode the PNIO cyclic data payload, right-click on a frame, go to **Protocol Preferences**, and point it to the folder containing the GSDML file.
 
 Scrolling to the top of the capture, you can also see the **CM** (Connection Management) exchange that happened when the session was established:
 
-![Wireshark showing CM protocol exchange](/profinet/wireshark-cm.png)
+<img src="/profinet/wireshark-cm.png" alt="Wireshark showing CM protocol exchange" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 ## Bonus: Blinking the LED
 
 One more thing worth trying. Go back to the IDE, right-click on **PN Controller** in the project tree, and select **Device Scan → Scan**:
 
-![PN Controller device scan](/profinet/pn-controller-scan.png)
+<img src="/profinet/pn-controller-scan.png" alt="PN Controller device scan" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Then click the **Blink LED** button:
 
-![Blink LED button](/profinet/blink-led.png)
+<img src="/profinet/blink-led.png" alt="Blink LED button" style="max-width: 100%; height: auto; border-radius: 6px;" />
 
 Switch back to the p-net terminal and you can see it responding in real time:
 
