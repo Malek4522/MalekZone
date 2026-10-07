@@ -96,7 +96,7 @@ Then go to **Tools → Device Repository**:
 
 Click **Install** and point it to your GSDML file. Below is the version I used — as long as it matches the p-net version you downloaded, it will work:
 
-[Download GSDML file](/profinet/GSDML-V2.43-RT-Labs-P-Net-Sample-App-20240530.xml)
+[Download GSDML file](../../profinet/GSDML-V2.43-RT-Labs-P-Net-Sample-App-20240530.xml)
 
 The p-net device should now appear in the list. In my screenshot three variants show up because I tested multiple GSDML versions — you only need one. Click **Renew Repository** and confirm with **Yes**.
 
