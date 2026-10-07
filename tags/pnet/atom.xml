@@ -86,7 +86,7 @@ Approximate round time milli-seconds:
 &lt;p&gt;Then go to &lt;strong&gt;Tools → Device Repository&lt;&#x2F;strong&gt;:&lt;&#x2F;p&gt;
 &lt;img src=&quot;..&#x2F;..&#x2F;profinet&#x2F;device-repo.png&quot; alt=&quot;Device Repository menu&quot; style=&quot;max-width: 100%; height: auto; border-radius: 6px;&quot; &#x2F;&gt;
 &lt;p&gt;Click &lt;strong&gt;Install&lt;&#x2F;strong&gt; and point it to your GSDML file. Below is the version I used — as long as it matches the p-net version you downloaded, it will work:&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;a href=&quot;&#x2F;profinet&#x2F;GSDML-V2.43-RT-Labs-P-Net-Sample-App-20240530.xml&quot;&gt;Download GSDML file&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;..&#x2F;..&#x2F;profinet&#x2F;GSDML-V2.43-RT-Labs-P-Net-Sample-App-20240530.xml&quot;&gt;Download GSDML file&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;The p-net device should now appear in the list. In my screenshot three variants show up because I tested multiple GSDML versions — you only need one. Click &lt;strong&gt;Renew Repository&lt;&#x2F;strong&gt; and confirm with &lt;strong&gt;Yes&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;img src=&quot;..&#x2F;..&#x2F;profinet&#x2F;renew-repo.png&quot; alt=&quot;Renewing the device repository&quot; style=&quot;max-width: 100%; height: auto; border-radius: 6px;&quot; &#x2F;&gt;
 &lt;p&gt;Next, go to the project tree on the left, double-click on &lt;strong&gt;Device&lt;&#x2F;strong&gt;, click &lt;strong&gt;Scan Network&lt;&#x2F;strong&gt;, select your desktop, and click OK.&lt;&#x2F;p&gt;
